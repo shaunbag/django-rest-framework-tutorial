@@ -24,7 +24,7 @@ class Snippet(models.Model):
         choices=STYLE_CHOICES, default="friendly", max_length=100
     )
     owner = models.ForeignKey("auth.user", related_name="snippets", on_delete=models.CASCADE, null=True)
-    highlighted = models.TextField(default="")
+    highlight = models.TextField(default="")
 
     class Meta:
         ordering = ["created"]
@@ -37,5 +37,5 @@ class Snippet(models.Model):
         linenos = "table" if self.linenos else False
         options = {"title": self.title} if self.title else {}
         formatter = HtmlFormatter(style=self.style, linenos=linenos, full=True, **options)
-        self.highlighted = highlight(self.code, lexer, formatter)
+        self.highlight = highlight(self.code, lexer, formatter)
         super().save(*args, **kwargs)
